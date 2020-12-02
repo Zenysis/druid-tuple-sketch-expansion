@@ -21,9 +21,11 @@ package org.apache.druid.query.aggregation.datasketches.tuple.expansion;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.druid.query.aggregation.AggregatorFactory;
 import org.apache.druid.query.aggregation.PostAggregator;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 
 /**
  * Collapse each tuple in the sketch into a single value by applying the
@@ -41,14 +43,45 @@ public class ArrayOfDoublesCollapseExpressionPostAggregator extends ArrayOfDoubl
       @JsonProperty("nominalEntries") @Nullable final Integer nominalEntries
   )
   {
-    super(name, field, expression, nominalEntries);
+    this(name, field, expression, nominalEntries, null);
+  }
+
+  // Constructor for `decorate` method.
+  private ArrayOfDoublesCollapseExpressionPostAggregator(
+      final String name,
+      final PostAggregator field,
+      final String expression,
+      @Nullable final Integer nominalEntries,
+      @Nullable final TupleExpressionHolder tupleExpression
+  )
+  {
+    super(name, field, expression, nominalEntries, tupleExpression);
   }
 
   @Override
-  public double[] evaluate(final double[] values)
+  public double[] evaluate(
+      final double[] tupleValues,
+      final Map<String, Object> combinedAggregators
+  )
   {
-    final double[] output = new double[]{tupleExpression.computeDouble(values)};
+    final double result =
+        tupleExpression.computeDouble(tupleValues, combinedAggregators);
+    final double[] output = new double[]{result};
     return output;
+  }
+
+  @Override
+  public ArrayOfDoublesCollapseExpressionPostAggregator decorate(
+      final Map<String, AggregatorFactory> aggregators
+  )
+  {
+    return new ArrayOfDoublesCollapseExpressionPostAggregator(
+        getName(),
+        getField(),
+        expression,
+        nominalEntries,
+        tupleExpression.decorate(aggregators)
+    );
   }
 
   @Override

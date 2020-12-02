@@ -38,6 +38,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Apply an expression on each tuple in the sketch.
@@ -55,14 +56,16 @@ public abstract class ArrayOfDoublesExpressionPostAggregator extends ArrayOfDoub
       final String name,
       final PostAggregator field,
       final String expression,
-      @Nullable final Integer nominalEntries
+      @Nullable final Integer nominalEntries,
+      @Nullable final TupleExpressionHolder tupleExpression
   )
   {
     super(name, field);
     this.expression = expression;
-    this.tupleExpression = new TupleExpressionHolder(expression);
     this.nominalEntries =
         nominalEntries == null ? Util.DEFAULT_NOMINAL_ENTRIES : nominalEntries;
+    this.tupleExpression =
+        tupleExpression == null ? new TupleExpressionHolder(expression) : tupleExpression;
     Util.checkIfPowerOf2(this.nominalEntries, "nominalEntries");
   }
 
@@ -82,7 +85,10 @@ public abstract class ArrayOfDoublesExpressionPostAggregator extends ArrayOfDoub
   // in the updated sketch. If `null` is returned, the key associated with this
   // tuple will be removed from the sketch.
   @Nullable
-  abstract double[] evaluate(double[] values);
+  abstract double[] evaluate(
+      double[] values,
+      Map<String, Object> combinedAggregators
+  );
 
   @Override
   public ArrayOfDoublesSketch compute(final Map<String, Object> combinedAggregators)
@@ -90,6 +96,9 @@ public abstract class ArrayOfDoublesExpressionPostAggregator extends ArrayOfDoub
     final ArrayOfDoublesSketch input =
         (ArrayOfDoublesSketch) getField().compute(combinedAggregators);
     final ArrayOfDoublesSketchIterator it = input.iterator();
+
+    final Map<String, Object> memoizedCombinedAggregators =
+        tupleExpression.memoizeCombinedAggregators(combinedAggregators);
 
     // NOTE(stephen): This is essentially the `ArrayOfDoublesIntersection`
     // `update` method tailored to this situation where values can be filtered
@@ -104,7 +113,7 @@ public abstract class ArrayOfDoublesExpressionPostAggregator extends ArrayOfDoub
       final long key = it.getKey();
       final double[] values = it.getValues();
       if (values != null) {
-        final double[] result = evaluate(values);
+        final double[] result = evaluate(values, memoizedCombinedAggregators);
         if (result != null) {
           matchKeys[matchCount] = key;
           matchValues[matchCount] = result;
@@ -182,6 +191,12 @@ public abstract class ArrayOfDoublesExpressionPostAggregator extends ArrayOfDoub
   public Comparator<ArrayOfDoublesSketch> getComparator()
   {
     return ArrayOfDoublesSketchAggregatorFactory.COMPARATOR;
+  }
+
+  @Override
+  public Set<String> getDependentFields()
+  {
+    return tupleExpression.getDependentFields();
   }
 
   @Override
