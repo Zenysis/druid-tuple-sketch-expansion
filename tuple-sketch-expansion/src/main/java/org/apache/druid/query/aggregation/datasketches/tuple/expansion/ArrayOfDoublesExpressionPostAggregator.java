@@ -32,6 +32,7 @@ import org.apache.druid.query.aggregation.PostAggregator;
 import org.apache.druid.query.aggregation.datasketches.tuple.ArrayOfDoublesSketchAggregatorFactory;
 import org.apache.druid.query.aggregation.datasketches.tuple.ArrayOfDoublesSketchUnaryPostAggregator;
 import org.apache.druid.query.cache.CacheKeyBuilder;
+import org.apache.druid.segment.column.ValueType;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.InvocationTargetException;
@@ -197,6 +198,15 @@ public abstract class ArrayOfDoublesExpressionPostAggregator extends ArrayOfDoub
   public Set<String> getDependentFields()
   {
     return tupleExpression.getDependentFields();
+  }
+
+  /**
+   * actual type is {@link ArrayOfDoublesSketch}
+   */
+  @Override
+  public ValueType getType()
+  {
+    return ValueType.COMPLEX;
   }
 
   @Override

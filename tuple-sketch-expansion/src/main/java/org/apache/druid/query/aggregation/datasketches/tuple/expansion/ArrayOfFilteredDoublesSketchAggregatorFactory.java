@@ -46,6 +46,7 @@ import org.apache.druid.segment.BaseObjectColumnValueSelector;
 import org.apache.druid.segment.ColumnSelectorFactory;
 import org.apache.druid.segment.DimensionSelector;
 import org.apache.druid.segment.NilColumnValueSelector;
+import org.apache.druid.segment.column.ValueType;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -296,12 +297,27 @@ public class ArrayOfFilteredDoublesSketchAggregatorFactory extends AggregatorFac
   }
 
   @Override
-  public String getTypeName()
+  public String getComplexTypeName()
   {
     if (metricFilters == null) {
       return TupleSketchExpansionModule.ARRAY_OF_FILTERED_DOUBLES_SKETCH_MERGE_AGG;
     }
     return TupleSketchExpansionModule.ARRAY_OF_FILTERED_DOUBLES_SKETCH_BUILD_AGG;
+  }
+
+  /**
+   * actual type is {@link ArrayOfDoublesSketch}
+   */
+  @Override
+  public ValueType getType()
+  {
+    return ValueType.COMPLEX;
+  }
+
+  @Override
+  public ValueType getFinalizedType()
+  {
+    return ValueType.DOUBLE;
   }
 
   @Override
