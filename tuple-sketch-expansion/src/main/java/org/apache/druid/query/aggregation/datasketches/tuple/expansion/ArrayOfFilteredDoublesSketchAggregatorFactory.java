@@ -33,9 +33,7 @@ import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.query.aggregation.AggregatorFactory;
 import org.apache.druid.query.aggregation.BufferAggregator;
 import org.apache.druid.query.aggregation.datasketches.tuple.ArrayOfDoublesSketchBuildAggregator;
-import org.apache.druid.query.aggregation.datasketches.tuple.ArrayOfDoublesSketchBuildBufferAggregator;
 import org.apache.druid.query.aggregation.datasketches.tuple.ArrayOfDoublesSketchMergeAggregator;
-import org.apache.druid.query.aggregation.datasketches.tuple.ArrayOfDoublesSketchMergeBufferAggregator;
 import org.apache.druid.query.aggregation.datasketches.tuple.ArrayOfDoublesSketchOperations;
 import org.apache.druid.query.aggregation.datasketches.tuple.NoopArrayOfDoublesSketchAggregator;
 import org.apache.druid.query.aggregation.datasketches.tuple.NoopArrayOfDoublesSketchBufferAggregator;
@@ -142,13 +140,14 @@ public class ArrayOfFilteredDoublesSketchAggregatorFactory extends AggregatorFac
       if (selector instanceof NilColumnValueSelector) {
         return new NoopArrayOfDoublesSketchBufferAggregator(numberOfValues);
       }
-      return new ArrayOfDoublesSketchMergeBufferAggregator(
+      return new ArrayOfFilteredDoublesSketchMergeBufferAggregator(
           selector,
           nominalEntries,
           numberOfValues,
           getMaxIntermediateSizeWithNulls()
       );
     }
+
     // input is raw data (key and array of values), use build aggregator
     final DimensionSelector keySelector = metricFactory
         .makeDimensionSelector(new DefaultDimensionSpec(fieldName, fieldName));
@@ -160,7 +159,7 @@ public class ArrayOfFilteredDoublesSketchAggregatorFactory extends AggregatorFac
     for (final MetricFilterSpec metricFilter : metricFilters) {
       selectors.add(metricFilter.buildSelector(metricFactory));
     }
-    return new ArrayOfDoublesSketchBuildBufferAggregator(
+    return new ArrayOfFilteredDoublesSketchBuildBufferAggregator(
         keySelector,
         selectors,
         nominalEntries,
