@@ -19,9 +19,9 @@
 
 package org.apache.druid.query.aggregation.datasketches.tuple.expansion;
 
-import org.apache.datasketches.tuple.ArrayOfDoublesSketch;
-import org.apache.datasketches.tuple.ArrayOfDoublesUpdatableSketch;
-import org.apache.datasketches.tuple.ArrayOfDoublesUpdatableSketchBuilder;
+import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesSketch;
+import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesUpdatableSketch;
+import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesUpdatableSketchBuilder;
 import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.query.aggregation.PostAggregator;
 import org.apache.druid.query.aggregation.TestObjectColumnSelector;

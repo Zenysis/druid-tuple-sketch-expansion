@@ -20,9 +20,9 @@
 package org.apache.druid.query.aggregation.datasketches.tuple.expansion;
 
 import org.apache.datasketches.memory.WritableMemory;
-import org.apache.datasketches.tuple.ArrayOfDoublesSketches;
-import org.apache.datasketches.tuple.ArrayOfDoublesUnion;
-import org.apache.datasketches.tuple.ArrayOfDoublesUpdatableSketch;
+import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesSketches;
+import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesUnion;
+import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesUpdatableSketch;
 import org.apache.druid.java.util.common.logger.Logger;
 
 import java.nio.ByteBuffer;

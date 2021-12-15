@@ -20,7 +20,7 @@
 package org.apache.druid.query.aggregation.datasketches.tuple.expansion;
 
 import com.google.common.base.Predicate;
-import org.apache.datasketches.tuple.ArrayOfDoublesSketch;
+import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesSketch;
 import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.query.aggregation.AggregatorFactory;
 import org.apache.druid.query.aggregation.TestFloatColumnSelector;

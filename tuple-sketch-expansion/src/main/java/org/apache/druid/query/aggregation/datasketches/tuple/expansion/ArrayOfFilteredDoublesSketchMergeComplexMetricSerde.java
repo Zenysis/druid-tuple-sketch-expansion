@@ -19,7 +19,7 @@
 
 package org.apache.druid.query.aggregation.datasketches.tuple.expansion;
 
-import org.apache.datasketches.tuple.ArrayOfDoublesSketch;
+import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesSketch;
 import org.apache.druid.data.input.InputRow;
 import org.apache.druid.query.aggregation.datasketches.tuple.ArrayOfDoublesSketchObjectStrategy;
 import org.apache.druid.query.aggregation.datasketches.tuple.ArrayOfDoublesSketchOperations;
