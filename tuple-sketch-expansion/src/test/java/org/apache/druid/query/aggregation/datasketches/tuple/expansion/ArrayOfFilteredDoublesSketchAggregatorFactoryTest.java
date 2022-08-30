@@ -36,7 +36,7 @@ import org.apache.druid.segment.DimensionSelectorUtils;
 import org.apache.druid.segment.IdLookup;
 import org.apache.druid.segment.column.ColumnCapabilities;
 import org.apache.druid.segment.column.ColumnCapabilitiesImpl;
-import org.apache.druid.segment.column.ValueType;
+import org.apache.druid.segment.column.ColumnType;
 import org.apache.druid.segment.data.IndexedInts;
 import org.apache.druid.segment.data.SingleIndexedInt;
 import org.apache.druid.testing.InitializedNullHandlingTest;
@@ -163,12 +163,12 @@ public class ArrayOfFilteredDoublesSketchAggregatorFactoryTest extends Initializ
         ColumnCapabilitiesImpl caps;
         if ("value".equals(columnName)) {
           caps = new ColumnCapabilitiesImpl();
-          caps.setType(ValueType.DOUBLE);
+          caps.setType(ColumnType.DOUBLE);
           caps.setDictionaryEncoded(false);
           caps.setHasBitmapIndexes(false);
         } else {
           caps = new ColumnCapabilitiesImpl();
-          caps.setType(ValueType.STRING);
+          caps.setType(ColumnType.STRING);
           caps.setDictionaryEncoded(true);
           caps.setHasBitmapIndexes(true);
         }

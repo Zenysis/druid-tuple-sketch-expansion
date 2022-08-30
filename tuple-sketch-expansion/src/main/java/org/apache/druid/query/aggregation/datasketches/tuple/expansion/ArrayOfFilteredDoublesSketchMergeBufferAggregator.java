@@ -74,7 +74,7 @@ public class ArrayOfFilteredDoublesSketchMergeBufferAggregator implements Buffer
         position,
         numberOfValues,
         maxIntermediateSize
-    ).update(update);
+    ).union(update);
   }
 
   /**

@@ -27,8 +27,10 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.apache.druid.math.expr.Expr;
+import org.apache.druid.math.expr.Expr.ObjectBinding;
 import org.apache.druid.math.expr.ExprEval;
 import org.apache.druid.math.expr.ExprMacroTable;
+import org.apache.druid.math.expr.ExpressionType;
 import org.apache.druid.math.expr.Parser;
 import org.apache.druid.query.aggregation.AggregatorFactory;
 import org.apache.druid.utils.CollectionUtils;
@@ -154,13 +156,22 @@ public class TupleExpressionHolder
       variables.put("$" + i, tupleValues[i]);
     }
 
-    return parsed.get().eval(
-        (String name) -> {
+    return parsed.get().eval(new ObjectBinding() {
+        @Override
+        public ExpressionType getType(String name)
+        {
+          return null;
+        }
+
+        @Override
+        public Object get(String name)
+        {
           if (variables.containsKey(name)) {
             return variables.get(name);
           }
           return combinedAggregators.get(name);
         }
+      }
     );
   }
 

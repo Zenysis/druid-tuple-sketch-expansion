@@ -72,7 +72,7 @@ public class ArrayOfDoublesBufferHelper
   )
   {
     return WritableMemory
-        .wrap(buffer, ByteOrder.LITTLE_ENDIAN)
+        .writableWrap(buffer, ByteOrder.LITTLE_ENDIAN)
         .writableRegion(position, maxIntermediateSize);
   }
 

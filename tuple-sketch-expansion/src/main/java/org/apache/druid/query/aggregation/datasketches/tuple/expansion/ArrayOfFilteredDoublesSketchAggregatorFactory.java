@@ -189,10 +189,10 @@ public class ArrayOfFilteredDoublesSketchAggregatorFactory extends AggregatorFac
         .setNumberOfValues(numberOfValues)
         .buildUnion();
     if (lhs != null) {
-      union.update((ArrayOfDoublesSketch) lhs);
+      union.union((ArrayOfDoublesSketch) lhs);
     }
     if (rhs != null) {
-      union.update((ArrayOfDoublesSketch) rhs);
+      union.union((ArrayOfDoublesSketch) rhs);
     }
     return union.getResult();
   }
