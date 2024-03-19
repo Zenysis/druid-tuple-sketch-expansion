@@ -21,8 +21,8 @@ package org.apache.druid.query.aggregation.datasketches.tuple.expansion;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.datasketches.ResizeFactor;
-import org.apache.datasketches.Util;
+import org.apache.datasketches.common.ResizeFactor;
+import org.apache.datasketches.common.Util;
 import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesSketch;
 import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesSketchIterator;
 import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesUpdatableSketch;
@@ -46,7 +46,7 @@ import java.util.Set;
  */
 public abstract class ArrayOfDoublesExpressionPostAggregator extends ArrayOfDoublesSketchUnaryPostAggregator
 {
-  private final Logger log = new Logger(ArrayOfDoublesExpressionPostAggregator.class);
+  private final Logger log = new Logger(ArrayOfDoublesExpressionPostAggregator.class);  
 
   protected final String expression;
   protected final TupleExpressionHolder tupleExpression;
@@ -64,10 +64,10 @@ public abstract class ArrayOfDoublesExpressionPostAggregator extends ArrayOfDoub
     super(name, field);
     this.expression = expression;
     this.nominalEntries =
-        nominalEntries == null ? Util.DEFAULT_NOMINAL_ENTRIES : nominalEntries;
+        nominalEntries == null ? Common.DEFAULT_NOMINAL_ENTRIES : nominalEntries;
     this.tupleExpression =
         tupleExpression == null ? new TupleExpressionHolder(expression) : tupleExpression;
-    Util.checkIfPowerOf2(this.nominalEntries, "nominalEntries");
+    Util.checkIfIntPowerOf2(this.nominalEntries, "nominalEntries");
   }
 
   @JsonProperty
