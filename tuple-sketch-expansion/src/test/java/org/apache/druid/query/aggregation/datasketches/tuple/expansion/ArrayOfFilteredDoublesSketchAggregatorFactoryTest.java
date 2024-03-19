@@ -19,12 +19,12 @@
 
 package org.apache.druid.query.aggregation.datasketches.tuple.expansion;
 
-import com.google.common.base.Predicate;
 import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesSketch;
 import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.query.aggregation.AggregatorFactory;
 import org.apache.druid.query.aggregation.TestFloatColumnSelector;
 import org.apache.druid.query.dimension.DimensionSpec;
+import org.apache.druid.query.filter.DruidPredicateFactory;
 import org.apache.druid.query.filter.SelectorDimFilter;
 import org.apache.druid.query.filter.ValueMatcher;
 import org.apache.druid.query.monomorphicprocessing.RuntimeShapeInspector;
@@ -215,7 +215,7 @@ public class ArrayOfFilteredDoublesSketchAggregatorFactoryTest extends Initializ
       }
 
       @Override
-      public ValueMatcher makeValueMatcher(Predicate<String> predicate)
+      public ValueMatcher makeValueMatcher(DruidPredicateFactory predicate)
       {
         return DimensionSelectorUtils.makeValueMatcherGeneric(this, predicate);
       }
