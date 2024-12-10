@@ -13,11 +13,9 @@ druid documentation. You should end up adding a line similar to this to your
 
 `druid.extensions.loadList=["druid-tuple-sketch-expansion"]`
 
-[!NOTE]
-For **24.0.0** and below, you will also need to include the druid-datasketches extension `jar` in the same directory as the compiled `jar` since the Tuple Sketch Expansion extension shares code with this core extension. Unfortunately, loading the `druid-datasketches` extension first when Druid starts will not make it so the code is shared. You can find the appropriate druid-datasketches extension `jar` in the public Apache artifact repository. For example, version 0.18.1 can be found [here](https://repository.apache.org/content/groups/public/org/apache/druid/extensions/druid-datasketches/0.18.1/).
+**Note**  For **24.0.0** and below, you will also need to include the druid-datasketches extension `jar` in the same directory as the compiled `jar` since the Tuple Sketch Expansion extension shares code with this core extension. Unfortunately, loading the `druid-datasketches` extension first when Druid starts will not make it so the code is shared. You can find the appropriate druid-datasketches extension `jar` in the public Apache artifact repository. For example, version 0.18.1 can be found [here](https://repository.apache.org/content/groups/public/org/apache/druid/extensions/druid-datasketches/0.18.1/).
 
-[!NOTE]
-For **29.0.0** and above, you will also need to include the druid-server and druid-processing `jar` in the same directory as the compiled `jar` since the Tuple Sketch Expansion extension shares code with these core extensions. Unfortunately, these libraries are not made available to the extension. You can find the appropriate druid-server and druid-processing `jar`s in the public Apache artifact repository. For example, version 29.0.0 can be found [here](https://repository.apache.org/content/groups/public/org/apache/druid/druid-server/29.0.0/) and [here](https://repository.apache.org/content/groups/public/org/apache/druid/druid-processing/29.0.0/) respectively.
+**Note**  For **29.0.0** and above, you will also need to include the druid-server and druid-processing `jar` in the same directory as the compiled `jar` since the Tuple Sketch Expansion extension shares code with these core extensions. Unfortunately, these libraries are not made available to the extension. You can find the appropriate druid-server and druid-processing `jar`s in the public Apache artifact repository. For example, version 29.0.0 can be found [here](https://repository.apache.org/content/groups/public/org/apache/druid/druid-server/29.0.0/) and [here](https://repository.apache.org/content/groups/public/org/apache/druid/druid-processing/29.0.0/) respectively.
 
 
 ##### Building from source
