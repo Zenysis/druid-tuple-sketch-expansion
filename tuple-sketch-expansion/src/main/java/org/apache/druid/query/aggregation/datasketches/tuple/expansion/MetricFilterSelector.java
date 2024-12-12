@@ -41,13 +41,13 @@ public class MetricFilterSelector implements BaseDoubleColumnValueSelector
 
   public boolean matches()
   {
-    return valueMatcher.matches(true);
+    return valueMatcher.matches(false);
   }
 
   @Override
   public double getDouble()
   {
-    return valueMatcher.matches(true) ? valueSelector.getDouble() : 0d;
+    return valueMatcher.matches(false) ? valueSelector.getDouble() : 0d;
   }
 
   @Override
