@@ -22,7 +22,7 @@ package org.apache.druid.query.aggregation.datasketches.tuple.expansion;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
-import org.apache.datasketches.Util;
+import org.apache.datasketches.common.Util;
 import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesSetOperationBuilder;
 import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesSketch;
 import org.apache.datasketches.tuple.arrayofdoubles.ArrayOfDoublesUnion;
@@ -86,8 +86,8 @@ public class ArrayOfFilteredDoublesSketchAggregatorFactory extends AggregatorFac
         fieldName,
         "Must have a valid, non-null fieldName"
     );
-    this.nominalEntries = nominalEntries == null ? Util.DEFAULT_NOMINAL_ENTRIES : nominalEntries;
-    Util.checkIfPowerOf2(this.nominalEntries, "nominalEntries");
+    this.nominalEntries = nominalEntries == null ? Common.DEFAULT_NOMINAL_ENTRIES : nominalEntries;
+    Util.checkIfIntPowerOf2(this.nominalEntries, "nominalEntries");
     this.metricFilters = metricFilters;
 
     if (numberOfValues == null) {
